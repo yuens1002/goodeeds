@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-firebaseConfig.js
+firebaseConfig_copy.js
 /dist/
 
 npm-debug.log*
