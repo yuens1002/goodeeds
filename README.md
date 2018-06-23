@@ -1,6 +1,6 @@
 # firestore-auth-demo
 
->A Vue.js / Vuetify project. A firebase account is required. Enable firebase and email authentication on the account, edit api/firebaseConfig.js to the specific firebase account.   
+>A Vue.js / Vuetify project. A firebase account is required. Clone master branch, edit firebaseConfig file in the API folder, then follow the instructions below.    
 
 ## Build Setup
 
