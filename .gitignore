@@ -1,7 +1,8 @@
 .DS_Store
 node_modules/
+firebaseConfig_copy.js
 /dist/
-src/api/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

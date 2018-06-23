@@ -46,10 +46,10 @@ export const store = new Vuex.Store({
           email: firebaseUser.user.email,
           userId: firebaseUser.user.uid,
           name: {
-            first: '',
-            last: ''
+            first: null,
+            last: null
           },
-          phone: ''
+          phone: null
         })
         commit('setLoading', false)
         dispatch('addUserToCollection')
