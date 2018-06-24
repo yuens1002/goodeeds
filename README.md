@@ -1,6 +1,6 @@
 # firestore-auth-demo
 
->A Vue.js / Vuetify project. A firebase account is required. Enable firebase and email authentication on the account, edit api/firebaseConfig.js to the specific firebase account.   
+>A Vue.js / Vuetify project. You can build with this project on your own. Simply register for a free firestore account, enable email authentication and put the database in demo mode. Clone or fork this project, follow the instructions below to initialize the project. Edit api/firebaseConfig.js to your specific firebase account.
 
 ## Build Setup
 
