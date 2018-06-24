@@ -74,14 +74,14 @@
       hasUser () {
         return this.$store.state.user
       },
-      docId () {
-        return this.$store.state.docId
+      docRef () {
+        return this.$store.state.docRef
       },
       menuItems () {
         if (this.isAuthenticated) {
           return [
             { title: 'Home', path: '/home', icon: 'home' },
-            { title: 'Profile', path: '/profile/' + this.docId, icon: 'face' }
+            { title: 'Profile', path: '/profile/' + this.docRef.id, icon: 'face' }
           ]
         } else {
           return [

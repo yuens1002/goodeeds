@@ -122,7 +122,7 @@ export default {
     }
   },
   beforeCreate () {
-    this.$store.commit('setDocRef', this.$route.params.docId)
+    // this.$store.commit('setDocRef', this.$route.params.docId)
     this.$store.state.docRef
       .get().then(snapshot => {
         this.user.email = snapshot.data().email

@@ -13,7 +13,6 @@ export const store = new Vuex.Store({
     user: null,
     error: null,
     loading: false,
-    docId: null,
     docRef: null,
     updated: false
   },
@@ -27,9 +26,6 @@ export const store = new Vuex.Store({
     setLoading (state, payload) {
       state.loading = payload
     },
-    setDocId (state, payload) {
-      state.docId = payload
-    },
     setDocRef (state, payload) {
       state.docRef = db.collection('users').doc(payload)
     },
@@ -42,6 +38,7 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(firebaseUser => {
+        dispatch('addUserToCollection', firebaseUser)
         commit('setUser', {
           email: firebaseUser.user.email,
           userId: firebaseUser.user.uid,
@@ -52,7 +49,7 @@ export const store = new Vuex.Store({
           phone: null
         })
         commit('setLoading', false)
-        dispatch('addUserToCollection')
+        router.push('/home')
       })
       .catch(error => {
         commit('setError', error.message)
@@ -63,10 +60,10 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(firebaseUser => {
+        commit('setDocRef', firebaseUser.user.uid)
         commit('setUser', {email: firebaseUser.user.email, userId: firebaseUser.user.uid})
         commit('setLoading', false)
         commit('setError', null)
-        dispatch('findDocId', firebaseUser.user.uid)
         router.push('/home')
       })
       .catch(error => {
@@ -75,19 +72,22 @@ export const store = new Vuex.Store({
       })
     },
     autoSignIn ({commit, dispatch}, payload) {
+      commit('setDocRef', payload.uid)
       commit('setUser', {email: payload.email, userId: payload.uid})
-      dispatch('findDocId', payload.uid)
     },
     userSignOut ({commit}) {
       firebase.auth().signOut()
       commit('setUser', null)
       router.replace('/')
     },
-    addUserToCollection ({commit, state}) {
-      db.collection('users').add(state.user)
+    addUserToCollection ({commit, state}, payload) {
+      // use auth uid as docId
+      db.collection('users').doc(payload.user.uid).set({
+        email: payload.user.email,
+        userId: payload.user.uid
+      })
         .then(function (docRef) {
-          commit('setDocId', docRef.id)
-          router.push('/home')
+          commit('setDocRef', payload.user.uid)
         })
         .catch(error => {
           commit('setError', error.message)
@@ -101,7 +101,6 @@ export const store = new Vuex.Store({
           querySnapshot.forEach(function (doc) {
             // doc.data() is never undefined for query doc snapshots
             commit('setDocId', doc.id)
-            // router.push('/home')
           })
         })
         .catch(error => {
@@ -125,9 +124,6 @@ export const store = new Vuex.Store({
   getters: {
     isAuthenticated (state) {
       return state.user !== null && state.user !== undefined
-    },
-    getDocId (state) {
-      return state.docId
     }
   }
 })
